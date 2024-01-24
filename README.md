@@ -1,2 +1,2 @@
 # authentication-user-rest-api
-API Rest para autenticação de usuários usando jwt
+API Rest para conexão em bancos SQL e NoSql, em fase de desenvolvimento.
