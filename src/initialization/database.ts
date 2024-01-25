@@ -1,16 +1,11 @@
 import "reflect-metadata";
-import {Container,  Service } from "typedi";
-import { DataSource} from "typeorm";
+import { Service } from "typedi";
+import { DataSource } from "typeorm";
 import { mysqlOptions, databaseEnabled } from "../config/development";
 
 @Service()
 export class ConnectDatabase {
-  private static dataSourceMysql: DataSource;
-
-  constructor() {
-    (Container);
-  }
-
+  private static dataSourceMysql: DataSource
   async connectMysql(): Promise<void> {
     if (databaseEnabled) {
       const { type, database } = mysqlOptions;

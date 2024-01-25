@@ -11,8 +11,8 @@ export class CustomerController {
     this.customerService = new CustomerService();
   }
 
-  @Get("/list/:customer")
-  public async findCustomer(@Param("customer") customer: any): Promise<any> {
+  @Get("/:customer")
+  public async getCustomer(@Param("customer") customer: any): Promise<any> {
     return await this.customerService.findCustomer(customer);
   }
 }
