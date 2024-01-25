@@ -1,22 +1,32 @@
-import { Service } from 'typedi';
-
-import { CustomersEntity } from '../../entities'
-import { Repository } from 'typeorm';
+import { Service } from "typedi";
+import { CustomersEntity } from "../../entities";
+import { Database } from "../../initialization";
+import { Abstract } from "../abstract/abstract";
 
 @Service()
-export class CustomerRepository extends Repository<CustomersEntity>{
-  
-  findCustomerData(customer:number): Promise<any> {  
+export class CustomerRepository extends Abstract<CustomersEntity> {
+  constructor() {
+    super(Database.mysql, CustomersEntity )
+  }
+    
+  async findCustomerData(customer: number): Promise<CustomersEntity| any> {
     try {
-     return this.find({
-      select:["customerName"] ,
-      where: {
-         customerNumber:customer
+      const result = await this.mySqlRepository.find({
+        where: {
+          customerNumber: customer,
         },
       });
-    } catch (error) {
-      throw `Error! ${error}`
 
+      if (!result) {
+        throw new Error(`Customer with number ${customer} not found.`);
+      }
+
+      return result;
+    } catch (error) {
+      throw `Error to find! ${error}`;
     }
   }
 }
+
+
+

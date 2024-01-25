@@ -13,9 +13,13 @@ export const mysqlOptions: DataSourceOptions = {
   username: 'dev',
   password: 'dev',
   logging: ['error'],
-  entities: [`${sourcepath}/entities/sql/**/*.js`],
+  entities: [`${sourcepath}/entities/sql/**/*.{js,ts}`],
 };
 
 export const databaseEnabled ={
   mysqlOptions: true
+}
+
+export const serverPort = {
+  port: 3000
 }

@@ -1,18 +1,19 @@
-import { Service } from 'typedi';
-
-import { CustomersEntity } from '../entities';
-import { CustomerRepository } from '../repositories';
-import { getConnection } from 'typeorm';
+// import { Inject } from "typedi";
+import { Service } from "typedi";
+import { CustomersEntity } from "../entities";
+import { CustomerRepository } from "../repositories";
 
 @Service()
 export class CustomerService {
   private repository: CustomerRepository;
-
+  
   constructor() {
-    const connection = getConnection("mysql");
-    this.repository = new CustomerRepository(CustomersEntity, connection.manager);
+   this.repository = new CustomerRepository()
   }
-  async findCustomer(customer:any): Promise<CustomersEntity | any> {
+
+  async findCustomerService(
+    customer: number
+  ): Promise<CustomersEntity> {
     return await this.repository.findCustomerData(customer);
   }
 }
