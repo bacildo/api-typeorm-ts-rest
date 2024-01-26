@@ -1,7 +1,7 @@
 {
   "name": "authentication-user-rest-api",
   "version": "1.0.0",
-  "description": "API Rest para autenticação de usuários usando jwt",
+  "description": "API Rest para conexão em bancos SQL e NoSql, em fase de desenvolvimento.",
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
