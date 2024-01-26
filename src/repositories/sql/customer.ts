@@ -4,29 +4,23 @@ import { Database } from "../../initialization";
 import { Abstract } from "../abstract/abstract";
 
 @Service()
-export class CustomerRepository extends Abstract<CustomersEntity> {
+export class CustomerRepository extends Abstract<CustomersEntity[]> {
   constructor() {
-    super(Database.mysql, CustomersEntity )
+    super(Database.mysql, CustomerRepository);
   }
-    
-  async findCustomerData(customer: number): Promise<CustomersEntity| any> {
+  findCustomerData(customer: number): Promise<CustomersEntity[] | any> {
     try {
-      const result = await this.mySqlRepository.find({
-        where: {
-          customerNumber: customer,
-        },
-      });
-
+      const result = this.mySqlRepository.createQueryBuilder()
+      .select("customerName")
+      .from(CustomersEntity,"customers")
+      .where("customerNumber", {id:customer})
+      .getOne()
       if (!result) {
         throw new Error(`Customer with number ${customer} not found.`);
       }
-
       return result;
     } catch (error) {
       throw `Error to find! ${error}`;
     }
   }
 }
-
-
-

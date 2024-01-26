@@ -1,16 +1,23 @@
-import "reflect-metadata";
 import * as express from "express";
+import "reflect-metadata";
 import { createExpressServer } from "routing-controllers";
-import { serverPort } from "../config/development";
-import { CustomerController } from "../controllers/customer";
+import { Service } from "typedi";
+import { serverPort, sourcepath } from "../config";
 
+
+@Service()
 export class Server {
   private app!: express.Application;
 
   init(): void {
     this.app = createExpressServer({
       routePrefix: "api",
-      controllers: [CustomerController],
+      defaultErrorHandler: false,
+      controllers: [`${sourcepath}/controllers/**/*{.js,.ts}`],
+      validation: {
+        skipMissingProperties: true,
+        validationError: { target: false, value: false },
+      },
     });
     console.log("Server Initialized");
   }

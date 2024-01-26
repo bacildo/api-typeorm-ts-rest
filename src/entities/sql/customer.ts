@@ -2,42 +2,42 @@ import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity("customers")
 export class CustomersEntity {
-  @PrimaryColumn({name: "customerNumber"})
-  customerNumber: number | undefined;
+  @PrimaryColumn({ type: "integer" })
+  customerNumber!: number;
 
-  @Column({name:"customerName"})
-  customerName: string | undefined;
+  @Column({ type: "varchar" })
+  customerName!: string;
 
-  @Column({name:"contactLastName"})
-  contactLastName: string | undefined;
+  @Column({ type: "varchar" })
+  contactLastName!: string;
 
-  @Column({name:"contactFirstName"})
-  contactFirstName: string | undefined;
+  @Column({ type: "varchar" })
+  contactFirstName!: string;
 
-  @Column({name:"phone"})
-  phone: string | undefined;
+  @Column({ type: "varchar" })
+  phone!: string;
 
-  @Column({name:"addressLine1"})
-  addressLine1: string | undefined;
+  @Column({ type: "varchar" })
+  addressLine1!: string;
 
-  @Column({name:"addressLine2"})
-  addressLine2: string | undefined;
+  @Column({ type: "varchar" })
+  addressLine2!: string;
 
-  @Column({name:"city"})
-  city: string | undefined;
+  @Column({ type: "varchar" })
+  city!: string;
 
-  @Column({name:"state"})
-  state: string | undefined;
+  @Column({ type: "varchar" })
+  state!: string;
 
-  @Column({name:"postalCode"})
-  postalCode: string | undefined;
+  @Column({ type: "varchar" })
+  postalCode!: string;
 
-  @Column({name:"country"})
-  country: string | undefined;
+  @Column({ type: "varchar" })
+  country!: string;
 
-  @Column({name:"salesRepEmployeeNumber"})
-  salesRepEmployeeNumber: number | undefined;
+  @Column({ type: "integer" })
+  salesRepEmployeeNumber!: number;
 
-  @Column({name:"creditLimit"})
-  creditLimit: number | undefined;
+  @Column({ type: "integer" })
+  creditLimit!: number;
 }

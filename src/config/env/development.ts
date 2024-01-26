@@ -4,7 +4,7 @@ export const sourcepath = resolve(__dirname, '../../');
 
 export const mysqlOptions: DataSourceOptions = {
   type: 'mysql',
-  name: 'CustomerDataBase',
+  name: 'mysql',
   host: '127.0.0.1',
   port: 3306,
   acquireTimeout: 60 * 60 * 1000,
@@ -13,11 +13,24 @@ export const mysqlOptions: DataSourceOptions = {
   username: 'dev',
   password: 'dev',
   logging: ['error'],
-  entities: [`${sourcepath}/entities/sql/**/*.{js,ts}`],
+  entities: [`${sourcepath}/entities/sql/*.js`],
 };
 
+export const mongoOptions: DataSourceOptions = {
+  type: 'mongodb',
+  name: 'mongodb',
+  host: 'localhost',
+  port: 27017,
+  database: 'dev',
+  useUnifiedTopology: true,
+  logging: ['error'],
+  entities: [`${sourcepath}/entities/mongodb/*.js`],
+};
+
+
 export const databaseEnabled ={
-  mysqlOptions: true
+  mysqlOptions: true,
+  mongoOptions:true
 }
 
 export const serverPort = {
