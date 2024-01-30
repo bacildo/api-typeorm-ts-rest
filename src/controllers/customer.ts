@@ -22,7 +22,7 @@ export class CustomerController {
 
   @Get("/customer/:id")
   public async getCustomerById(@Param("id") id: number): Promise<any> {
-    if (id == null || undefined) {
+    if (!id) {
       throw new Error("Customer not found");
     } else {
       return await this.customer.findCustomerService(id);
@@ -35,7 +35,11 @@ export class CustomerController {
 
   @Post("/customer")
   public async createCustomer(@Body() customer: CustomersEntity): Promise<any> {
-    return await this.customer.createCustomerService(customer);
+    if (!customer) {
+      throw new Error("Please inform the customer data");
+    } else {
+      return await this.customer.createCustomerService(customer);
+    }
   }
 
   @Put("/customer/:id")
@@ -43,11 +47,19 @@ export class CustomerController {
     @Param("id") id: number,
     @Body() customer: CustomersEntity
   ): Promise<any> {
-    return await this.customer.editCustomerService(id, customer);
+    if (!id) {
+      throw new Error("Customer not found");
+    } else {
+      return await this.customer.editCustomerService(id, customer);
+    }
   }
 
   @Delete("/customer/:id")
   public async deleteCustomer(@Param("id") id: number): Promise<any> {
-    return await this.customer.deleteCustomerService(id);
+    if (!id) {
+      throw new Error("Customer not found");
+    } else {
+      return await this.customer.deleteCustomerService(id);
+    }
   }
 }
