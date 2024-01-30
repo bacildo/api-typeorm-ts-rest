@@ -13,7 +13,7 @@
    "keywords": [],
    "author": "Diogo Bacildo",
    "repository": {
-      "directory": "https://github.com/bacildo/authentication-user-rest-api"
+      "directory": "https://github.com/bacildo/api-typeorm-ts-rest"
    },
    "license": "ISC",
    "dependencies": {
