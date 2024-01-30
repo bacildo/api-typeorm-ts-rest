@@ -39,17 +39,6 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
       ],{allowDiskUse:true}).toArray()
 
       return result
-  //     const people = await result.toArray();
-  //     const newPeople:PeopleEntity [] = [];
-  //     people.map((painel) => {
-  //       if (painel._id) {
-  //         if (painel._id.nomeCarga) {
-  //           painel._id.nomeCarga = painel._id.nomeCarga 
-  //         }
-  //         newCargas.push(painel._id);
-  //       }
-  //     });
-  //     return newCargas;
     } catch (error) {
       throw new Error();
     }

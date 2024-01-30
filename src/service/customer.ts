@@ -11,7 +11,7 @@ export class CustomerService {
     this.repository = new CustomerRepository();
   }
 
-  async findCustomerService(customer: number): Promise<CustomersEntity> {
+  async findCustomerService(customer: number): Promise<CustomersEntity[]> {
     return await this.repository.findCustomerData(customer);
   }
 }

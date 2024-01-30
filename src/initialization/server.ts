@@ -12,6 +12,7 @@ export class Server {
   init(): void {
     this.app = createExpressServer({
       routePrefix: "api",
+      cors:true,
       defaultErrorHandler: false,
       controllers: [`${sourcepath}/controllers/**/*{.js,.ts}`],
       validation: {
