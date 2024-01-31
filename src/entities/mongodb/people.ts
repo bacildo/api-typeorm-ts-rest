@@ -13,5 +13,8 @@ export class PeopleEntity {
   idade!: number;
 
   @Column()
+  id!: number;
+
+  @Column()
   profissao!: string;
 }

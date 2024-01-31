@@ -28,7 +28,7 @@ export class CustomerController {
       return await this.customer.findCustomerService(id);
     }
   }
-  @Get("/customer-list/")
+  @Get("/customer-list")
   public async getAllCustomers(): Promise<any> {
     return await this.customer.findAllCustomerService();
   }
