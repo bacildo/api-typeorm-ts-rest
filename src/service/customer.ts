@@ -1,4 +1,3 @@
-// import { Inject } from "typedi";
 import { Service } from "typedi";
 import { CustomersEntity } from "../entities";
 import { CustomerRepository } from "../repositories";

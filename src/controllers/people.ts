@@ -1,23 +1,25 @@
 import {
   Body,
+  Delete,
   Get,
   JsonController,
   Param,
   Post,
   Put,
-  Delete,
 } from "routing-controllers";
 import { Service } from "typedi";
-import { PeopleService } from "../service";
 import { PeopleEntity } from "../entities";
+import { PeopleGenerateCSVFiles, PeopleService } from "../service";
 
 @Service()
 @JsonController()
 export class PeopleController {
   private people: PeopleService;
+  private peopleGenerateCSVFiles: PeopleGenerateCSVFiles;
 
   constructor() {
     this.people = new PeopleService();
+    this.peopleGenerateCSVFiles = new PeopleGenerateCSVFiles();
   }
 
   @Get("/people/:id")
@@ -62,5 +64,19 @@ export class PeopleController {
     } else {
       return await this.people.deletePeopleService(id);
     }
+  }
+
+  @Get("/people-csv")
+  public async getAllPeopleCsv(): Promise<any> {
+    const peopleCsv =
+      await this.peopleGenerateCSVFiles.generatePeopleCSVFiles();
+
+    if (!peopleCsv) {
+      return {
+        message:
+          "CSV generation completed successfully, but no file was generated.",
+      };
+    }
+    return peopleCsv;
   }
 }

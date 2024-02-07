@@ -10,40 +10,10 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
   }
   async findPeople(id: number): Promise<PeopleEntity[]> {
     try {
-      const result = this.mongoRepository
-        .aggregate(
-          [
-            {
-              $match: {
-                id: id,
-              },
-            },
-            {
-              $project: {
-                nome: 1,
-                idade: 1,
-                profissao: 1,
-              },
-            },
-
-            {
-              $group: {
-                _id: {
-                  nome: "$nome",
-                  idade: "$idade",
-                  profissao: "$profissao",
-                },
-              },
-            },
-            {
-              $sort: {
-                _id: 1,
-              },
-            },
-          ],
-          { allowDiskUse: true }
-        )
-        .toArray();
+      const result = this.mongoRepository.find({
+        select: ["nome", "idade", "id", "profissao"],
+        where: { id: id },
+      });
 
       return result;
     } catch (error) {
@@ -53,37 +23,9 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
 
   async findAllPeople(): Promise<PeopleEntity[]> {
     try {
-      const result = this.mongoRepository
-        .aggregate(
-          [
-            {
-              $project: {
-                nome: 1,
-                idade: 1,
-                profissao: 1,
-                id: 1,
-              },
-            },
-
-            {
-              $group: {
-                _id: {
-                  nome: "$nome",
-                  idade: "$idade",
-                  profissao: "$profissao",
-                  id: "$id",
-                },
-              },
-            },
-            {
-              $sort: {
-                _id: 1,
-              },
-            },
-          ],
-          { allowDiskUse: true }
-        )
-        .toArray();
+      const result = await this.mongoRepository.find({
+        select: ["nome", "idade", "id", "profissao"],
+      });
 
       return result;
     } catch (error) {
@@ -119,6 +61,5 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
     } catch (error) {
       throw new Error();
     }
-    
   }
 }
