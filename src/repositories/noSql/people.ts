@@ -10,26 +10,24 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
   }
   async findPeople(id: number): Promise<PeopleEntity[]> {
     try {
-      const result = this.mongoRepository.find({
+      const result = await this.mongoRepository.find({
         select: ["nome", "idade", "id", "profissao"],
         where: { id: id },
       });
-
       return result;
     } catch (error) {
-      throw new Error();
+      throw new Error(`${error}, People not found`);
     }
   }
 
   async findAllPeople(): Promise<PeopleEntity[]> {
     try {
       const result = await this.mongoRepository.find({
-        select: ["nome", "idade", "id", "profissao"],
-      });
-
+        select: ["nome", "idade", "id", "profissao"],       
+      });       
       return result;
     } catch (error) {
-      throw new Error();
+      throw new Error(`${error}, People list not found`);
     }
   }
 
@@ -38,7 +36,7 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
       const result = await this.mongoRepository.save(people);
       return result;
     } catch (error) {
-      throw new Error();
+      throw new Error(`${error}, People not created`);
     }
   }
 
@@ -50,7 +48,7 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
       const result = await this.mongoRepository.update({ id: id }, people);
       return result;
     } catch (error) {
-      throw new Error();
+      throw new Error(`${error}, People not updated`);
     }
   }
 
@@ -59,7 +57,7 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
       const result = await this.mongoRepository.delete({ id: id });
       return result;
     } catch (error) {
-      throw new Error();
+      throw new Error(`${error}, People not deleted`);
     }
   }
 }

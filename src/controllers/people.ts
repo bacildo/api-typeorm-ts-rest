@@ -8,6 +8,7 @@ import {
   Put,
 } from "routing-controllers";
 import { Service } from "typedi";
+import { IPeople, JsonPeople } from "../dto";
 import { PeopleEntity } from "../entities";
 import { PeopleGenerateCSVFiles, PeopleService } from "../service";
 
@@ -71,12 +72,24 @@ export class PeopleController {
     const peopleCsv =
       await this.peopleGenerateCSVFiles.generatePeopleCSVFiles();
 
-    if (!peopleCsv) {
+    if (peopleCsv) {
+      const ppl = await this.people.findAllPeopleService();
+
+      const jsonPeopleList = ppl.map((person: IPeople) =>
+        JsonPeople({ people: person })
+      );
+
+      if (!jsonPeopleList || jsonPeopleList.length === 0) {
+        return {
+          message:
+            "CSV generation completed successfully, but no data was generated.",
+        };
+      }
+      return jsonPeopleList;
+    } else {
       return {
-        message:
-          "CSV generation completed successfully, but no file was generated.",
+        message: "CSV generation failed.",
       };
     }
-    return peopleCsv;
   }
 }

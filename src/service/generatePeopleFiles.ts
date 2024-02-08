@@ -1,7 +1,7 @@
+import { Json2CsvOptions } from "json-2-csv";
 import { Service } from "typedi";
 import { PeopleRepository } from "../repositories";
 import { GeneratorService } from "./generator";
-import { Json2CsvOptions } from "json-2-csv";
 
 @Service()
 export class PeopleGenerateCSVFiles {
@@ -18,10 +18,10 @@ export class PeopleGenerateCSVFiles {
       const peopleData = await this.repository.findAllPeople();
 
       if (peopleData) {
-
-        const csvOptions: Json2CsvOptions = { useLocaleFormat: true, unwindArrays:true};
-
-       return await this.generatorService.generateCsv(peopleData, csvOptions);
+        const csvOptions: Json2CsvOptions = {
+          useLocaleFormat: false,
+        };
+        return await this.generatorService.generateCsv(peopleData, csvOptions);
       }
     } catch (error) {
       throw new Error(`${error}, File not generated!`);
