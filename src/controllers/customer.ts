@@ -8,16 +8,19 @@ import {
   Delete,
 } from "routing-controllers";
 import { Service } from "typedi";
-import { CustomerService } from "../service/";
+import { CustomerService, CustomerGenerateCSVFiles } from "../service/";
 import { CustomersEntity } from "../entities";
+import { ICustomer, JsonCustomer } from "../dto";
 
 @Service()
 @JsonController()
 export class CustomerController {
   private customer: CustomerService;
+  private customerGenerateCsv: CustomerGenerateCSVFiles;
 
   constructor() {
     this.customer = new CustomerService();
+    this.customerGenerateCsv = new CustomerGenerateCSVFiles();
   }
 
   @Get("/customer/:id")
@@ -41,7 +44,6 @@ export class CustomerController {
       return await this.customer.createCustomerService(customer);
     }
   }
-
   @Put("/customer/:id")
   public async updateCustomer(
     @Param("id") id: number,
@@ -60,6 +62,32 @@ export class CustomerController {
       throw new Error("Customer not found");
     } else {
       return await this.customer.deleteCustomerService(id);
+    }
+  }
+
+  @Get("/customer-csv")
+  public async getAllCustomerCsv(): Promise<any> {
+    const customerCsv =
+      await this.customerGenerateCsv.generateCustomerCSVFiles();
+
+    if (customerCsv) {
+      const customer = await this.customer.findAllCustomerService();
+
+      const jsonCustomerList = customer.map((custom: ICustomer) =>
+        JsonCustomer({ customer: custom })
+      );
+
+      if (!jsonCustomerList || jsonCustomerList.length === 0) {
+        return {
+          message:
+            "CSV generation completed successfully, but no data was generated.",
+        };
+      }
+      return jsonCustomerList;
+    } else {
+      return {
+        message: "CSV generation failed.",
+      };
     }
   }
 }

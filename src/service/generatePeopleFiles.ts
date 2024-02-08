@@ -1,7 +1,7 @@
-import { Json2CsvOptions } from "json-2-csv";
 import { Service } from "typedi";
 import { PeopleRepository } from "../repositories";
 import { GeneratorService } from "./generator";
+import { Json2CsvOptions } from "json-2-csv";
 
 @Service()
 export class PeopleGenerateCSVFiles {
@@ -12,7 +12,6 @@ export class PeopleGenerateCSVFiles {
     this.repository = new PeopleRepository();
     this.generatorService = new GeneratorService();
   }
-
   async generatePeopleCSVFiles(): Promise<any> {
     try {
       const peopleData = await this.repository.findAllPeople();

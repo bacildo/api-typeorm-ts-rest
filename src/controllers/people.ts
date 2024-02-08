@@ -66,16 +66,15 @@ export class PeopleController {
       return await this.people.deletePeopleService(id);
     }
   }
-
   @Get("/people-csv")
   public async getAllPeopleCsv(): Promise<any> {
     const peopleCsv =
       await this.peopleGenerateCSVFiles.generatePeopleCSVFiles();
 
     if (peopleCsv) {
-      const ppl = await this.people.findAllPeopleService();
+      const people = await this.people.findAllPeopleService();
 
-      const jsonPeopleList = ppl.map((person: IPeople) =>
+      const jsonPeopleList = people.map((person: IPeople) =>
         JsonPeople({ people: person })
       );
 
