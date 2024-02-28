@@ -13,7 +13,8 @@ export const mysqlOptions: DataSourceOptions = {
   username: 'dev',
   password: 'dev',
   logging: ['error'],
-  entities: [`${sourcepath}/entities/sql/*.js`],
+  entities: [`${sourcepath}/entities/sql/*.ts`],
+
 };
 
 export const mongoOptions: DataSourceOptions = {
@@ -24,7 +25,7 @@ export const mongoOptions: DataSourceOptions = {
   database: 'dev',
   useUnifiedTopology: true,
   logging: ['error'],
-  entities: [`${sourcepath}/entities/mongodb/*.js`],
+  entities: [`${sourcepath}/entities/mongodb/*.{js,ts}`],
 };
 
 

@@ -4,7 +4,6 @@ import { createExpressServer } from "routing-controllers";
 import { Service } from "typedi";
 import { serverPort, sourcepath } from "../config";
 
-
 @Service()
 export class Server {
   private app!: express.Application;
@@ -12,7 +11,7 @@ export class Server {
   init(): void {
     this.app = createExpressServer({
       routePrefix: "api",
-      cors:true,
+      cors: true,
       defaultErrorHandler: false,
       controllers: [`${sourcepath}/controllers/**/*{.js,.ts}`],
       validation: {
@@ -22,7 +21,13 @@ export class Server {
     });
     console.log("Server Initialized");
   }
+
   start(): void {
+    if (!this.app) {
+      console.error('Express application not initialized. Call init() before start().');
+      return;
+    }
+
     this.app.listen(serverPort.port, () => {
       console.log("Server running on port " + serverPort.port);
     });
