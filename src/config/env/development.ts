@@ -13,7 +13,7 @@ export const mysqlOptions: DataSourceOptions = {
   username: 'dev',
   password: 'dev',
   logging: ['error'],
-  entities: [`${sourcepath}/entities/sql/*.ts`],
+  entities: [`${sourcepath}/entities/sql/*.{js,ts}`],
 
 };
 
