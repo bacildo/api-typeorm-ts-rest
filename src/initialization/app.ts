@@ -15,7 +15,7 @@ export class App {
     setTimeout(() => {
       this.server.init();
       this.server.start();
-    }, 1000); // Atraso de 1 segundo (1000 milissegundos)
+    }, 1500); // Atraso de 1,5 segundo (1500 milissegundos)
 
     return this.server;
   }

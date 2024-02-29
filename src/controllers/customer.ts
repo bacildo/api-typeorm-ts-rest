@@ -1,16 +1,16 @@
 import {
   Body,
+  Delete,
   Get,
   JsonController,
   Param,
   Post,
   Put,
-  Delete,
 } from "routing-controllers";
 import { Service } from "typedi";
-import { CustomerService, CustomerGenerateCSVFiles } from "../service/";
 import { CustomersEntity } from "../entities";
-import { ICustomer, JsonCustomer } from "../dto";
+import { ICustomer, JsonCustomer } from "../interfaces";
+import { CustomerGenerateCSVFiles, CustomerService } from "../service";
 
 @Service()
 @JsonController()
@@ -24,7 +24,9 @@ export class CustomerController {
   }
 
   @Get("/customer/:id")
-  public async getCustomerById(@Param("id") id: number): Promise<any> {
+  public async getCustomerById(
+    @Param("id") id: number
+  ): Promise<CustomersEntity[]> {
     if (!id) {
       throw new Error("Customer not found");
     } else {
@@ -32,12 +34,14 @@ export class CustomerController {
     }
   }
   @Get("/customer-list")
-  public async getAllCustomers(): Promise<any> {
+  public async getAllCustomers(): Promise<CustomersEntity[]> {
     return await this.customer.findAllCustomerService();
   }
 
   @Post("/customer")
-  public async createCustomer(@Body() customer: CustomersEntity): Promise<any> {
+  public async createCustomer(
+    @Body() customer: CustomersEntity
+  ): Promise<CustomersEntity> {
     if (!customer) {
       throw new Error("Please inform the customer data");
     } else {
@@ -48,7 +52,7 @@ export class CustomerController {
   public async updateCustomer(
     @Param("id") id: number,
     @Body() customer: CustomersEntity
-  ): Promise<any> {
+  ): Promise<CustomersEntity> {
     if (!id) {
       throw new Error("Customer not found");
     } else {
@@ -57,7 +61,9 @@ export class CustomerController {
   }
 
   @Delete("/customer/:id")
-  public async deleteCustomer(@Param("id") id: number): Promise<any> {
+  public async deleteCustomer(
+    @Param("id") id: number
+  ): Promise<CustomersEntity> {
     if (!id) {
       throw new Error("Customer not found");
     } else {
@@ -66,7 +72,9 @@ export class CustomerController {
   }
 
   @Get("/customer-csv")
-  public async getAllCustomerCsv(): Promise<any> {
+  public async getAllCustomerCsv(): Promise<
+    { message: string } | { data: ICustomer[] }
+  > {
     const customerCsv =
       await this.customerGenerateCsv.generateCustomerCSVFiles();
 
@@ -83,7 +91,7 @@ export class CustomerController {
             "CSV generation completed successfully, but no data was generated.",
         };
       }
-      return jsonCustomerList;
+      return { data: jsonCustomerList };
     } else {
       return {
         message: "CSV generation failed.",

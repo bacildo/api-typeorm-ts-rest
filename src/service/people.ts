@@ -1,6 +1,7 @@
 import { Service } from "typedi";
 import { PeopleEntity } from "../entities";
 import { PeopleRepository } from "../repositories";
+import { ObjectId } from "mongodb";
 
 @Service()
 export class PeopleService {
@@ -9,7 +10,7 @@ export class PeopleService {
   constructor() {
     this.repository = new PeopleRepository();
   }
-  async findPeopleService(id: number): Promise<PeopleEntity[]> {
+  async findPeopleService(id: ObjectId): Promise<PeopleEntity[]> {
     return await this.repository.findPeople(id);
   }
 
@@ -21,7 +22,10 @@ export class PeopleService {
     return await this.repository.createPeople(people);
   }
 
-  async editPeopleService(id: number, people: PeopleEntity): Promise<PeopleEntity> {
+  async editPeopleService(
+    id: number,
+    people: PeopleEntity
+  ): Promise<PeopleEntity> {
     return await this.repository.editPeople(id, people);
   }
 
