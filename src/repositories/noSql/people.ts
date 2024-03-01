@@ -19,10 +19,9 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
       result.map((person) => {
         person._id = person._id.toString();
       });
-
       return result;
     } catch (error) {
-      throw new Error(`${error}, People not found`);
+      throw new Error(`${error}, Person not found`);
     }
   }
 
@@ -43,7 +42,7 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
       const result = await this.mongoRepository.save(people);
       return result;
     } catch (error) {
-      throw new Error(`${error}, People not created`);
+      throw new Error(`${error}, Person not created`);
     }
   }
 
@@ -55,7 +54,7 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
       const result = await this.mongoRepository.update({ id: id }, people);
       return result;
     } catch (error) {
-      throw new Error(`${error}, People not updated`);
+      throw new Error(`${error}, Person not updated`);
     }
   }
 
@@ -64,7 +63,7 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
       const result = await this.mongoRepository.delete({ id: id });
       return result;
     } catch (error) {
-      throw new Error(`${error}, People not deleted`);
+      throw new Error(`${error}, Person not deleted`);
     }
   }
 }

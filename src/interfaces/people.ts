@@ -1,12 +1,18 @@
 export interface IPeople {
   nome: string;
-
   idade: number;
-
   id: number;
-
   profissao: string;
 }
+
+export const notFoundPeople = (): IPeople => {
+  return {
+    nome: "",
+    idade: 0,
+    id: 0,
+    profissao: "",
+  };
+};
 
 export const JsonPeople = (options: { people: IPeople }) => {
   return {

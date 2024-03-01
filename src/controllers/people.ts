@@ -9,7 +9,7 @@ import {
 } from "routing-controllers";
 import { Service } from "typedi";
 import { PeopleEntity } from "../entities";
-import { IPeople, JsonPeople } from "../interfaces";
+import { IPeople, JsonPeople, notFoundPeople } from "../interfaces";
 import { PeopleGenerateCSVFiles, PeopleService } from "../service";
 import { ObjectId } from "mongodb";
 
@@ -23,33 +23,35 @@ export class PeopleController {
     this.people = new PeopleService();
     this.peopleGenerateCSVFiles = new PeopleGenerateCSVFiles();
   }
-
   @Get("/people/:id")
-  public async getPeople(@Param("id") id: string): Promise<PeopleEntity[]> {
-    const objectId = new ObjectId(id)
-    if (!objectId) {
-      throw new Error("Customer not found");
-    } else {
-      return await this.people.findPeopleService(objectId);
+  public async getPeople(
+    @Param("id") id: string
+  ): Promise<PeopleEntity[] | IPeople> {
+    const objectId = new ObjectId(id);
+    const people = await this.people.findPeopleService(objectId);
+    if (!people.length) {
+      return notFoundPeople();
     }
+    return people;
   }
-
   @Get("/people")
-  public async getAllPeople(): Promise<PeopleEntity[]> {
-    return await this.people.findAllPeopleService();
+  public async getAllPeople(): Promise<PeopleEntity[] | IPeople> {
+    const people = await this.people.findAllPeopleService();
+    if (!people.length) {
+      return notFoundPeople();
+    }
+    return people;
   }
-
   @Post("/people")
   public async createCustomer(
     @Body() people: PeopleEntity
-  ): Promise<PeopleEntity> {
+  ): Promise<PeopleEntity> {   
     if (!people) {
       throw new Error("Please inform the people data");
     } else {
       return await this.people.createPeopleService(people);
     }
   }
-
   @Put("/people/:id")
   public async updateCustomer(
     @Param("id") id: number,
