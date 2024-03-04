@@ -8,7 +8,7 @@ export class CustomerRepository extends Abstract<CustomersEntity> {
   constructor() {
     super(Database.mysql, CustomersEntity);
   }
-  async findCustomerData(id: number): Promise<CustomersEntity[] | any> {
+  async findCustomerData(id: number): Promise<CustomersEntity[]> {
     try {
       const result = await this.mySqlRepository.find({
         where: { customerNumber: id },
@@ -22,7 +22,7 @@ export class CustomerRepository extends Abstract<CustomersEntity> {
     }
   }
 
-  async findAllCustomerData(): Promise<CustomersEntity[] | any> {
+  async findAllCustomerData(): Promise<CustomersEntity[]> {
     try {
       const result = await this.mySqlRepository.find({});
       if (!result) {
@@ -36,7 +36,7 @@ export class CustomerRepository extends Abstract<CustomersEntity> {
 
   async createCustomer(
     customer: CustomersEntity
-  ): Promise<CustomersEntity[] | any> {
+  ): Promise<CustomersEntity> {
     try {
       const result = await this.mySqlRepository.save(customer);
       if (!result) {
@@ -70,17 +70,17 @@ export class CustomerRepository extends Abstract<CustomersEntity> {
     }
   }
 
-  async deleteCustomer(id: number): Promise<CustomersEntity[] | any> {
+  async deleteCustomer(id: number): Promise<string | void> {
     try {
       const result = await this.mySqlRepository.delete({
         customerNumber: id,
       });
-      if (!result) {
-        throw new Error(`Customer not deleted.`);
+      if (result.affected === 0) {
+        throw new Error(`Customer with id ${id} not found`);
       }
-      return result;
+      return `Customer with id ${id} deleted successfully`;
     } catch (error) {
-      throw `Error to delete! ${error}`;
+      throw new Error(`${error}, Customer not deleted`);
     }
   }
 }

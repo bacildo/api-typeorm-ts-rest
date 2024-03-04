@@ -29,7 +29,7 @@ export class CustomerService {
   ): Promise<CustomersEntity> {
     return await this.repository.editCustomer(id, customer);
   }
-  async deleteCustomerService(id: number): Promise<CustomersEntity> {
+  async deleteCustomerService(id: number): Promise<string | void> {
     return await this.repository.deleteCustomer(id);
   }
 }

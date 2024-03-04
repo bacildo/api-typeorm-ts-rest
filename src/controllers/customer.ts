@@ -57,21 +57,16 @@ export class CustomerController {
     @Param("id") id: number,
     @Body() customer: CustomersEntity
   ): Promise<CustomersEntity | ICustomer> {
-    if (!id) {
-      throw new Error("Customer not found");
-    } else {
-      return await this.customer.editCustomerService(id, customer);
-    }
+    return await this.customer.editCustomerService(id, customer);
   }
 
   @Delete("/customer/:id")
-  public async deleteCustomer(
-    @Param("id") id: number
-  ): Promise<CustomersEntity> {
-    if (!id) {
-      throw new Error("Customer not found");
-    } else {
-      return await this.customer.deleteCustomerService(id);
+  public async deleteCustomer(@Param("id") id: number): Promise<string> {
+    try {
+      await this.customer.deleteCustomerService(id);
+      return "Customer deleted successfully";
+    } catch (error) {
+      throw new Error(`Error deleting customer: ${error}`);
     }
   }
 

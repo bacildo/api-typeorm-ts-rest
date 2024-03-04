@@ -47,7 +47,7 @@ export class PeopleController {
     @Body() people: PeopleEntity
   ): Promise<PeopleEntity> {
     if (Object.keys(people).length == 0) {
-      throw new Error("Please inform the people data");
+      throw new Error("Please inform the person data");
     } else {
       return await this.people.createPeopleService(people);
     }
@@ -57,12 +57,7 @@ export class PeopleController {
     @Param("id") id: string,
     @Body() people: PeopleEntity
   ): Promise<PeopleEntity | IPeople> {
-    const objectId = new ObjectId(id);
-    if (!objectId) {
-      throw new Error("Person not found");
-    } else {
-      return await this.people.editPeopleService(id, people);
-    }
+    return await this.people.editPeopleService(id, people);
   }
   @Delete("/people/:id")
   public async deletePerson(@Param("id") id: string): Promise<string> {
@@ -74,7 +69,6 @@ export class PeopleController {
       throw new Error(`Error deleting person: ${error}`);
     }
   }
-
   @Get("/people-csv")
   public async getAllPeopleCsv(): Promise<
     { message: string } | { data: IPeople[] }
