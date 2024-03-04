@@ -47,7 +47,7 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir um pull request 
 
 Este projeto está licenciado sob a Licença ISC - consulte o arquivo [LICENSE](LICENSE) para obter detalhes.
 
-############################################# English ##########################################################################
+### English
 
 # API TypeORM TS REST
 
