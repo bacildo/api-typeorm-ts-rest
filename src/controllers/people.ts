@@ -24,7 +24,7 @@ export class PeopleController {
     this.peopleGenerateCSVFiles = new PeopleGenerateCSVFiles();
   }
   @Get("/people/:id")
-  public async getPeople(
+  public async getPerson(
     @Param("id") id: string
   ): Promise<PeopleEntity[] | IPeople> {
     const objectId = new ObjectId(id);
@@ -43,29 +43,30 @@ export class PeopleController {
     return people;
   }
   @Post("/people")
-  public async createCustomer(
+  public async createPerson(
     @Body() people: PeopleEntity
-  ): Promise<PeopleEntity> {   
-    if (!people) {
+  ): Promise<PeopleEntity> {
+    if (Object.keys(people).length == 0) {
       throw new Error("Please inform the people data");
     } else {
       return await this.people.createPeopleService(people);
     }
   }
   @Put("/people/:id")
-  public async updateCustomer(
-    @Param("id") id: number,
+  public async updatePerson(
+    @Param("id") id: string,
     @Body() people: PeopleEntity
-  ): Promise<PeopleEntity> {
-    if (!id) {
-      throw new Error("People not found");
+  ): Promise<PeopleEntity | IPeople> {
+    const objectId = new ObjectId(id);
+    if (!objectId) {
+      throw new Error("Person not found");
     } else {
       return await this.people.editPeopleService(id, people);
     }
   }
 
   @Delete("/people/:id")
-  public async deleteCustomer(@Param("id") id: number): Promise<PeopleEntity> {
+  public async deletePerson(@Param("id") id: number): Promise<PeopleEntity> {
     if (!id) {
       throw new Error("Customer not found");
     } else {

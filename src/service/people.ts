@@ -19,14 +19,14 @@ export class PeopleService {
   }
 
   async createPeopleService(people: PeopleEntity): Promise<PeopleEntity> {
-    return await this.repository.createPeople(people);
+    return await this.repository.createPerson(people);
   }
 
   async editPeopleService(
-    id: number,
+    id: string,
     people: PeopleEntity
   ): Promise<PeopleEntity> {
-    return await this.repository.editPeople(id, people);
+    return await this.repository.editPerson(id, people);
   }
 
   async deletePeopleService(id: number): Promise<PeopleEntity> {

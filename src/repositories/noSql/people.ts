@@ -37,22 +37,28 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
     }
   }
 
-  async createPeople(people: PeopleEntity): Promise<PeopleEntity> {
+  async createPerson(person: PeopleEntity): Promise<PeopleEntity> {
     try {
-      const result = await this.mongoRepository.save(people);
+      const result = await this.mongoRepository.save(person);
       return result;
     } catch (error) {
       throw new Error(`${error}, Person not created`);
     }
   }
 
-  async editPeople(
-    id: number,
-    people: PeopleEntity
-  ): Promise<PeopleEntity[] | any> {
+  async editPerson(id: string, person: PeopleEntity): Promise<PeopleEntity> {
     try {
-      const result = await this.mongoRepository.update({ id: id }, people);
-      return result;
+      const updatedPerson = await this.mongoRepository.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: person },
+        { returnDocument: "after" }
+      );
+
+      if (!updatedPerson) {
+        throw new Error(`Person with id ${id} not found`);
+      }
+
+      return updatedPerson.value;
     } catch (error) {
       throw new Error(`${error}, Person not updated`);
     }
