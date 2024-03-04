@@ -26,15 +26,15 @@ Dependências de desenvolvimento incluem tipos de express, typescript, rimraf, t
 - Acesso a dados de bancos de dados SQL e NoSQL de forma eficiente.
 - Geração de arquivos CSV a partir dos dados fornecidos.
 
-# Node version 
+## Node version 
 
 20.11.0
 
-# Para instalar o projeto
+## Para instalar o projeto
 
 npm install
 
-# Para rodar o projeto
+## Para rodar o projeto
 
 npm start
 
@@ -47,7 +47,7 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir um pull request 
 
 Este projeto está licenciado sob a Licença ISC - consulte o arquivo [LICENSE](LICENSE) para obter detalhes.
 
-# English
+# English  
 
 # API TypeORM TS REST
 
@@ -76,17 +76,17 @@ Development dependencies include express types, typescript, rimraf, ts-node, amo
 - Efficient access to SQL and NoSQL database data.
 - Generation of CSV files from the provided data.
 
-# Node version 
+## Node version 
 
 20.11.0
 
-# Installation
+## Installation
 
 To install the project, use:
 
 npm install
 
-# Running the Project
+## Running the Project
 
 To run the project, use:
 
