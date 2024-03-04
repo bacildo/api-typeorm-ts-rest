@@ -9,7 +9,7 @@ import {
 } from "routing-controllers";
 import { Service } from "typedi";
 import { CustomersEntity } from "../entities";
-import { ICustomer, JsonCustomer } from "../interfaces";
+import { ICustomer, JsonCustomer, notFoundCustomer } from "../interfaces";
 import { CustomerGenerateCSVFiles, CustomerService } from "../service";
 
 @Service()
@@ -26,23 +26,27 @@ export class CustomerController {
   @Get("/customer/:id")
   public async getCustomerById(
     @Param("id") id: number
-  ): Promise<CustomersEntity[]> {
-    if (!id) {
-      throw new Error("Customer not found");
-    } else {
-      return await this.customer.findCustomerService(id);
+  ): Promise<CustomersEntity[] | ICustomer> {
+    const customer = await this.customer.findCustomerService(id);
+    if (!customer.length) {
+      return notFoundCustomer();
     }
+    return customer;
   }
   @Get("/customer-list")
-  public async getAllCustomers(): Promise<CustomersEntity[]> {
-    return await this.customer.findAllCustomerService();
+  public async getAllCustomers(): Promise<CustomersEntity[] | ICustomer> {
+    const customer = await this.customer.findAllCustomerService();
+    if (!customer.length) {
+      return notFoundCustomer();
+    }
+    return customer;
   }
 
   @Post("/customer")
   public async createCustomer(
     @Body() customer: CustomersEntity
   ): Promise<CustomersEntity> {
-    if (!customer) {
+    if (Object.keys(customer).length == 0) {
       throw new Error("Please inform the customer data");
     } else {
       return await this.customer.createCustomerService(customer);
@@ -52,7 +56,7 @@ export class CustomerController {
   public async updateCustomer(
     @Param("id") id: number,
     @Body() customer: CustomersEntity
-  ): Promise<CustomersEntity> {
+  ): Promise<CustomersEntity | ICustomer> {
     if (!id) {
       throw new Error("Customer not found");
     } else {

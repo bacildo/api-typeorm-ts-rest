@@ -26,6 +26,24 @@ export interface ICustomer {
   creditLimit: number;
 }
 
+export const notFoundCustomer = (): ICustomer => {
+  return {
+    customerNumber: 0,
+    customerName: "",
+    contactLastName: "",
+    contactFirstName: "",
+    phone: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    country: "",
+    salesRepEmployeeNumber: 0,
+    creditLimit: 0,
+  };
+}
+
 export const JsonCustomer = (options: { customer: ICustomer }) => {
   return {
     customerNumber: options.customer.customerNumber,

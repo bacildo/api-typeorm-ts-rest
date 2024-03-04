@@ -51,34 +51,22 @@ export class CustomerRepository extends Abstract<CustomersEntity> {
   async editCustomer(
     id: number,
     customer: CustomersEntity
-  ): Promise<CustomersEntity[] | any> {
+  ): Promise<CustomersEntity> {
     try {
       const result = await this.mySqlRepository.update(
         {
           customerNumber: id,
         },
-        {
-          customerNumber: customer.customerNumber,
-          customerName: customer.customerName,
-          contactLastName: customer.contactLastName,
-          contactFirstName: customer.contactFirstName,
-          phone: customer.phone,
-          addressLine1: customer.addressLine1,
-          addressLine2: customer.addressLine2,
-          city: customer.city,
-          state: customer.state,
-          postalCode: customer.postalCode,
-          country: customer.country,
-          salesRepEmployeeNumber: customer.salesRepEmployeeNumber,
-          creditLimit: customer.creditLimit,
-        }
+        customer
       );
-      if (!result) {
-        throw new Error(`Customer not updated.`);
+      if (!result || result.affected === 0) {
+        throw new Error(`Customer with id ${id} not found.`);
       }
-      return result;
+      const updatedCustomer = new CustomersEntity();
+      Object.assign(updatedCustomer, customer);
+      return updatedCustomer;
     } catch (error) {
-      throw `Error to update! ${error}`;
+      throw `Customer not update! ${error}`;
     }
   }
 
