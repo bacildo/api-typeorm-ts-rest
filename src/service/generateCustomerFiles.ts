@@ -13,7 +13,7 @@ export class CustomerGenerateCSVFiles {
     this.generatorService = new GeneratorService();
   }
 
-  async generateCustomerCSVFiles(): Promise<any> {
+  async generateCustomerCSVFiles(): Promise<Object | null> {
     try {
       const customerData = await this.repository.findAllCustomerData();
 
@@ -26,5 +26,6 @@ export class CustomerGenerateCSVFiles {
     } catch (error) {
       throw new Error(`${error}, File not generated!`);
     }
+    return null;
   }
 }

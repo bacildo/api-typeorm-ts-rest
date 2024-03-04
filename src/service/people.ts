@@ -10,8 +10,8 @@ export class PeopleService {
   constructor() {
     this.repository = new PeopleRepository();
   }
-  async findPeopleService(id: ObjectId): Promise<PeopleEntity[]> {
-    return await this.repository.findPeople(id);
+  async findPersonService(id: ObjectId): Promise<PeopleEntity[]> {
+    return await this.repository.findPerson(id);
   }
 
   async findAllPeopleService(): Promise<PeopleEntity[]> {
@@ -29,7 +29,7 @@ export class PeopleService {
     return await this.repository.editPerson(id, people);
   }
 
-  async deletePeopleService(id: number): Promise<PeopleEntity> {
-    return await this.repository.deletePeople(id);
+  async deletePeopleService(id: ObjectId): Promise<string | void> {
+    await this.repository.deletePerson(id);
   }
 }

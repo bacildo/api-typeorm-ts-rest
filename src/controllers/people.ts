@@ -28,7 +28,7 @@ export class PeopleController {
     @Param("id") id: string
   ): Promise<PeopleEntity[] | IPeople> {
     const objectId = new ObjectId(id);
-    const people = await this.people.findPeopleService(objectId);
+    const people = await this.people.findPersonService(objectId);
     if (!people.length) {
       return notFoundPeople();
     }
@@ -64,15 +64,17 @@ export class PeopleController {
       return await this.people.editPeopleService(id, people);
     }
   }
-
   @Delete("/people/:id")
-  public async deletePerson(@Param("id") id: number): Promise<PeopleEntity> {
-    if (!id) {
-      throw new Error("Customer not found");
-    } else {
-      return await this.people.deletePeopleService(id);
+  public async deletePerson(@Param("id") id: string): Promise<string> {
+    const objectId = new ObjectId(id);
+    try {
+      await this.people.deletePeopleService(objectId);
+      return "Person deleted successfully";
+    } catch (error) {
+      throw new Error(`Error deleting person: ${error}`);
     }
   }
+
   @Get("/people-csv")
   public async getAllPeopleCsv(): Promise<
     { message: string } | { data: IPeople[] }

@@ -9,7 +9,7 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
   constructor() {
     super(Database.mongo, PeopleEntity);
   }
-  async findPeople(id: ObjectId): Promise<PeopleEntity[]> {
+  async findPerson(id: ObjectId): Promise<PeopleEntity[]> {
     try {
       const result = await this.mongoRepository.find({
         select: ["nome", "idade", "id", "profissao"],
@@ -51,25 +51,31 @@ export class PeopleRepository extends Abstract<PeopleEntity> {
       const updatedPerson = await this.mongoRepository.findOneAndUpdate(
         { _id: new ObjectId(id) },
         { $set: person },
-        { returnDocument: "after" }
+        { returnDocument: "after" },     
       );
-
-      if (!updatedPerson) {
+      if (!updatedPerson || updatedPerson.value === null) {
         throw new Error(`Person with id ${id} not found`);
       }
-
       return updatedPerson.value;
     } catch (error) {
       throw new Error(`${error}, Person not updated`);
     }
   }
 
-  async deletePeople(id: number): Promise<PeopleEntity[] | any> {
+  async deletePerson(id: ObjectId): Promise<string | void> {
     try {
-      const result = await this.mongoRepository.delete({ id: id });
-      return result;
+      const result = await this.mongoRepository.deleteOne({
+        _id: new ObjectId(id),
+      });
+
+      if (result.deletedCount === 0) {
+        throw new Error(`Person with id ${id} not found`);
+      }
+      return `Person with id ${id} deleted successfully`;
+
     } catch (error) {
       throw new Error(`${error}, Person not deleted`);
     }
+   
   }
 }
